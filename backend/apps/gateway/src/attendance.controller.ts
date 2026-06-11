@@ -22,7 +22,6 @@ import { existsSync, unlinkSync } from 'fs';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { lastValueFrom } from 'rxjs';
 
-// Custom Multer Options to keep file extensions intact and generate unique names
 const uploadOptions = {
   storage: diskStorage({
     destination: './uploads',
@@ -45,7 +44,7 @@ const uploadOptions = {
 export class AttendanceController {
   constructor(
     @Inject('ATTENDANCE_SERVICE') private readonly client: ClientProxy,
-  ) {}
+  ) { }
 
   @Post('clock-in')
   @UseInterceptors(FileInterceptor('photo', uploadOptions))
@@ -56,8 +55,7 @@ export class AttendanceController {
 
     const userId = req.user.id;
     const now = new Date();
-    
-    // Formatting date (YYYY-MM-DD) and time (HH:MM:SS) in local time
+
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
@@ -72,7 +70,7 @@ export class AttendanceController {
       userId,
       date: dateStr,
       time: timeStr,
-      photoPath: `/uploads/${file.filename}`, // Serves relative to static mount
+      photoPath: `/uploads/${file.filename}`,
     };
 
     const response = await lastValueFrom(
@@ -95,7 +93,7 @@ export class AttendanceController {
 
     const userId = req.user.id;
     const now = new Date();
-    
+
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
@@ -128,7 +126,7 @@ export class AttendanceController {
   async getTodayAttendance(@Req() req: any) {
     const userId = req.user.id;
     const now = new Date();
-    
+
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
@@ -190,7 +188,6 @@ export class AttendanceController {
       throw new HttpException(response.message, HttpStatus.BAD_REQUEST);
     }
 
-    // Delete physical files
     if (response && Array.isArray(response.photos)) {
       for (const photoPath of response.photos) {
         if (!photoPath) continue;
@@ -223,7 +220,6 @@ export class AttendanceController {
       throw new HttpException(response.message, HttpStatus.BAD_REQUEST);
     }
 
-    // Delete physical files
     const deletePhoto = (photoPath: string) => {
       if (!photoPath) return;
       const filename = photoPath.replace('/uploads/', '');

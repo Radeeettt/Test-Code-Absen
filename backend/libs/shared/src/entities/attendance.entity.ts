@@ -9,19 +9,19 @@ export class Attendance {
   userId!: number;
 
   @Column({ type: 'date' })
-  date!: string; // Format: YYYY-MM-DD
+  date!: string;
 
   @Column({ name: 'clock_in_time', type: 'time' })
-  clockInTime!: string; // Format: HH:MM:SS
+  clockInTime!: string;
 
   @Column({ name: 'clock_out_time', type: 'time', nullable: true })
-  clockOutTime?: string; // Format: HH:MM:SS
+  clockOutTime?: string;
 
   @Column({ name: 'clock_in_photo' })
-  clockInPhoto!: string; // Uploaded file path
+  clockInPhoto!: string;
 
   @Column({ name: 'clock_out_photo', nullable: true })
-  clockOutPhoto?: string; // Uploaded file path
+  clockOutPhoto?: string;
 
   @Column({ default: 'present' })
   status!: string;

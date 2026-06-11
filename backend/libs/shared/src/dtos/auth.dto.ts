@@ -30,3 +30,44 @@ export class LoginDto {
   @IsNotEmpty()
   password!: string;
 }
+
+export class CreateEmployeeDto {
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(4)
+  username!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(6)
+  password!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  fullName!: string;
+
+  @IsString()
+  @IsOptional()
+  @IsIn(['employee', 'admin'])
+  role?: 'employee' | 'admin';
+}
+
+export class UpdateEmployeeDto {
+  @IsString()
+  @IsOptional()
+  fullName?: string;
+
+  @IsString()
+  @IsOptional()
+  username?: string;
+
+  @IsString()
+  @IsOptional()
+  @MinLength(6)
+  password?: string;
+
+  @IsString()
+  @IsOptional()
+  @IsIn(['employee', 'admin'])
+  role?: 'employee' | 'admin';
+}

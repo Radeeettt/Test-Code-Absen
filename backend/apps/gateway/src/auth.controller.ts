@@ -1,7 +1,18 @@
-import { Controller, Post, Body, Inject, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  Inject,
+  HttpException,
+  HttpStatus,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { RegisterDto, LoginDto } from '@shared/index';
 import { lastValueFrom } from 'rxjs';
+import { JwtAuthGuard } from './guards/jwt.guard';
 
 @Controller('api/auth')
 export class AuthController {
@@ -24,6 +35,18 @@ export class AuthController {
   async login(@Body() dto: LoginDto) {
     const response = await lastValueFrom(
       this.client.send({ cmd: 'login' }, dto),
+    );
+    if (response && response.error) {
+      throw new HttpException(response.message, HttpStatus.UNAUTHORIZED);
+    }
+    return response;
+  }
+
+  @Get('me')
+  @UseGuards(JwtAuthGuard)
+  async getMe(@Req() req: any) {
+    const response = await lastValueFrom(
+      this.client.send({ cmd: 'get-me' }, { userId: req.user.id }),
     );
     if (response && response.error) {
       throw new HttpException(response.message, HttpStatus.UNAUTHORIZED);

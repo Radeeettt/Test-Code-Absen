@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { MulterModule } from '@nestjs/platform-express';
 import { AuthController } from './auth.controller';
 import { AttendanceController } from './attendance.controller';
+import { EmployeeController } from './employee.controller';
 
 @Module({
   imports: [
@@ -30,6 +31,6 @@ import { AttendanceController } from './attendance.controller';
       dest: './uploads',
     }),
   ],
-  controllers: [AuthController, AttendanceController],
+  controllers: [AuthController, AttendanceController, EmployeeController],
 })
 export class GatewayModule {}

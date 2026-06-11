@@ -7,11 +7,11 @@ export class ClockInMessageDto {
 
   @IsString()
   @IsNotEmpty()
-  date!: string; // YYYY-MM-DD
+  date!: string;
 
   @IsString()
   @IsNotEmpty()
-  time!: string; // HH:MM:SS
+  time!: string;
 
   @IsString()
   @IsNotEmpty()
@@ -25,11 +25,11 @@ export class ClockOutMessageDto {
 
   @IsString()
   @IsNotEmpty()
-  date!: string; // YYYY-MM-DD
+  date!: string;
 
   @IsString()
   @IsNotEmpty()
-  time!: string; // HH:MM:SS
+  time!: string;
 
   @IsString()
   @IsNotEmpty()
